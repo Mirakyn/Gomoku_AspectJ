@@ -28,8 +28,6 @@ public aspect AdversaireJ {
 		mIsFirstPlayer = true;
 	} 
 	
-	//pointcut setPlayerToMove(RegisterMoves rm, App app, Spot place) : execution (* aspects.registering.RegisterMoves+.registerMove (App, Spot)) && args (app, place) && target (rm);
-
 	pointcut setPlayerToMove(Grid grid, int x, int y, Player player) : call (* core.model.Grid.placeStone (int, int, Player)) && args (x, y, player) && target (grid) && within (App);
 
 	/**
@@ -37,18 +35,6 @@ public aspect AdversaireJ {
 	 * @param app
 	 * @param place
 	 */
-	/*beforeGrid grid, int x, int y, Player player) : setPlayerToMove(grid, x, y, player) {
-		int indexPlayer = 0;
-		if (!mIsFirstPlayer) {
-			indexPlayer = 1;
-		}
-		
-		place.setOccupant(mPlayers.get(indexPlayer));
-		
-		mIsFirstPlayer = !mIsFirstPlayer;
-
-		System.out.println("avant le register : " + place.getOccupant().getName()); 
-	} */
 	
 	Object around(Grid grid, int x, int y, Player player) : setPlayerToMove (grid, x, y, player){
 		int indexPlayer = 0;

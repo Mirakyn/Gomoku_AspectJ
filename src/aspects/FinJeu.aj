@@ -23,7 +23,7 @@ privileged public aspect FinJeu {
 	pointcut notifyGameOver(Grid grid, Player player) : call (void notifyGameOver(Player)) && args (player) && target (grid) && within(Grid);
 
 	/**
-	 * Create a new file when the game start to store the moves of the new game
+	 * At the end of the game clear the notifiers to allow no new moves and set the winning spot in gold color
 	 * @param app
 	 * @param primaryStage
 	 */

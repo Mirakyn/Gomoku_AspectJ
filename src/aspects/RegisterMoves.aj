@@ -13,15 +13,6 @@ import ui.App;
 import ui.Borad;
 
 public aspect RegisterMoves {
-	/*pointcut logMove(Borad app, Spot place) : call (void ui.App.makeMove (Spot)) && target (app) && args (place) && within (Borad);
-
-	before(Borad app, Spot place) : logMove(app, place) { 
-		System.out.println("Avant le move"); 
-	} 
-
-	after(Borad app, Spot place) : logMove(app, place) { 
-		System.out.println("Après le move : " + place); 
-	}*/
 	
 	File mFile;
 	
@@ -58,7 +49,7 @@ public aspect RegisterMoves {
 	pointcut registerMove(Borad board, Spot place) : execution (* ui.Borad.stonePlaced (Spot)) && args (place) && target (board);
 
 	/**
-	 * Register the new move in the file created at the begin of the game
+	 * Register the new move in file with player's name and location
 	 * @param app
 	 * @param place
 	 */
@@ -70,8 +61,6 @@ public aspect RegisterMoves {
 		str += " : ";
 		str += place.toString();
 		
-		//File file = new File("newfile.txt");
-
 		try (FileOutputStream fop = new FileOutputStream(mFile, true)) {
 
 			// if file doesn't exists, then create it
@@ -102,7 +91,7 @@ public aspect RegisterMoves {
 	pointcut lastRegister(Grid grid, Player player) : call (void notifyGameOver(Player)) && args (player) && target (grid) && within(Grid);
 
 	/**
-	 * Create a new file when the game start to store the moves of the new game
+	 * Register at the end of the game the moves list of each player
 	 * @param app
 	 * @param primaryStage
 	 */
@@ -116,8 +105,6 @@ public aspect RegisterMoves {
 			str += "\n";
 		}
 		
-		//File file = new File("newfile.txt");
-
 		try (FileOutputStream fop = new FileOutputStream(mFile, true)) {
 
 			// if file doesn't exists, then create it
